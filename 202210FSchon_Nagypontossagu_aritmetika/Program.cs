@@ -11,7 +11,6 @@ namespace _202210FSchon_Nagypontossagu_aritmetika
         struct Természetes
         {
             static readonly byte pontosság = 5;
-
             static readonly Dictionary<char, sbyte> jelszótár = new Dictionary<char, sbyte> 
             { 
                 { '0', 0 },
