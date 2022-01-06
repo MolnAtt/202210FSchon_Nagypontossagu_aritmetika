@@ -10,7 +10,7 @@ namespace _202210FSchon_Nagypontossagu_aritmetika
     {
         struct Természetes
         {
-            static readonly byte pontosság = 5;
+            static readonly byte pontosság = 127;
             static readonly Dictionary<char, sbyte> jelszótár = new Dictionary<char, sbyte> 
             { 
                 { '0', 0 },
@@ -37,7 +37,7 @@ namespace _202210FSchon_Nagypontossagu_aritmetika
 
 
             // áttekinthető stringes konstruktor (ha még nehéz, ezt használd!)
-            /**/
+            /** /
             public Természetes(string szöveg)
             {
                 this.t = new sbyte[pontosság];
@@ -50,11 +50,11 @@ namespace _202210FSchon_Nagypontossagu_aritmetika
                 }
             }
             /*/
-            public Természetes(string szöveg) : this((byte)szöveg.Length, new sbyte[pontosság], 10) 
+            public Természetes(string szöveg, byte számrendszer = 10) : this((byte)szöveg.Length, new sbyte[pontosság], számrendszer) 
             {
                 for (int i = szöveg.Length - 1; 0 <= i; i--)
                 {
-                    t[szöveg.Length - 1 - i] = sbyte.Parse(szöveg[i].ToString());
+                    t[szöveg.Length - 1 - i] = jelszótár[szöveg[i]];
                 }
             }
             /**/
@@ -65,13 +65,24 @@ namespace _202210FSchon_Nagypontossagu_aritmetika
                 this.sz = sz;
             }
             public Természetes(int szám) : this(szám.ToString()) { }
+            public Természetes(int szám, int számrendszer) : this(0, new sbyte[pontosság], (byte)számrendszer)
+            {
+                int i = 0;
+                int maradék;
+                while (szám!=0)
+                {
+                    szám = Math.DivRem(szám, számrendszer, out maradék);
+                    t[i++] = (sbyte)maradék;
+                }
+                h = (byte)i;
+            }
 
             public override string ToString()
             {
                 string sum = "";
                 for (int i = pontosság-1; 0 <= i; i--)
                 {
-                    sum += t[i].ToString();
+                    sum += inverz_jelszótár[t[i]].ToString();
                 }
                 return sum;
             }
@@ -81,10 +92,12 @@ namespace _202210FSchon_Nagypontossagu_aritmetika
             //Természetes szám1 = new Természetes(5, new sbyte[] { 1, 5, 6, 4, 2 }, 10);
             Természetes szám3 = new Természetes("632");
             Természetes szám2 = new Természetes(65432);
+            Természetes szám4 = new Természetes("11000000", 16);
+            //Természetes szám5 = new Természetes(10000000000000000000000000000000000000000, 5);
             //Természetes szám4 = new Természetes("6A2",16);
 
-  //          Console.WriteLine(szám4.ToInt32());
-            Console.WriteLine(szám2);
+            //          Console.WriteLine(szám4.ToInt32());
+            Console.WriteLine(szám4);
             
             Console.ReadKey();
         }
